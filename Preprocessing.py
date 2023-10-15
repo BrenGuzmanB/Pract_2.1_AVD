@@ -111,5 +111,3 @@ def one_hot_encoding(dataframe, column_name):
     result_df.drop(column_name, axis=1, inplace=True)
     
     return result_df
-
-
