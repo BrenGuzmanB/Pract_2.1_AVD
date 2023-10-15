@@ -3,35 +3,6 @@ Created on Sat Oct 14 00:10:10 2023
 
 @author: Bren Guzmán, Brenda García, María José Merino
 """
-#Regla de dos Sigmas
-import pandas as pd
-
-def rule_of_two_sigmas(df, column_name):
-    # Calcular la media y la desviación estándar de la columna
-    column = df[column_name]
-    mean = column.mean()
-    std_dev = column.std()
-
-    # Definir el umbral superior e inferior para valores atípicos
-    upper_threshold = mean + 2 * std_dev
-    lower_threshold = mean - 2 * std_dev
-
-    # Identificar valores atípicos
-    outliers = df[(column > upper_threshold) | (column < lower_threshold)]
-
-    return outliers
-
-# Ejemplo de uso
-data = {
-    'values': [1, 2, 3, 4, 5, 6, 7, 1000]
-}
-
-df = pd.DataFrame(data)
-outliers = rule_of_two_sigmas(df, 'values')
-
-print("Valores atípicos:")
-print(outliers)
-
 # Librerías
 import numpy as np
 import math
@@ -77,4 +48,68 @@ def filter_box_cox(df, column_name, range=[-3, 3]):
     filtered_df = df[np.abs(z_scores) <= range[1]]
 
     return filtered_df
+
+def rule_of_two_sigmas(df, column_name):
+    # Calcular la media y la desviación estándar de la columna
+    column = df[column_name]
+    mean = column.mean()
+    std_dev = column.std()
+
+    # Definir el umbral superior e inferior para valores atípicos
+    upper_threshold = mean + 2 * std_dev
+    lower_threshold = mean - 2 * std_dev
+
+    # Identificar valores atípicos
+    outliers = df[(column > upper_threshold) | (column < lower_threshold)]
+
+    return outliers
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def one_hot_encoding(dataframe, column_name):
+    
+    column = dataframe[column_name]
+    unique_values = column.unique()
+    
+    # Diccionario para almacenar las nuevas columnas
+    one_hot_dict = {}
+    
+    # Recorremos los valores únicos y generamos las nuevas columnas
+    for value in unique_values:
+        one_hot_dict[f'{column_name}_{value}'] = (column == value).astype(int)
+    
+    # DataFrame con las columnas 
+    one_hot_df = pd.DataFrame(one_hot_dict)
+    
+    # Concatenar el nuevo DataFrame con el original
+    result_df = pd.concat([dataframe, one_hot_df], axis=1)
+    
+    # Eliminar la columna original
+    result_df.drop(column_name, axis=1, inplace=True)
+    
+    return result_df
+
 
