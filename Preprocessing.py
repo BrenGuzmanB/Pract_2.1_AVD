@@ -3,6 +3,35 @@ Created on Sat Oct 14 00:10:10 2023
 
 @author: Bren Guzmán, Brenda García, María José Merino
 """
+#Regla de dos Sigmas
+import pandas as pd
+
+def rule_of_two_sigmas(df, column_name):
+    # Calcular la media y la desviación estándar de la columna
+    column = df[column_name]
+    mean = column.mean()
+    std_dev = column.std()
+
+    # Definir el umbral superior e inferior para valores atípicos
+    upper_threshold = mean + 2 * std_dev
+    lower_threshold = mean - 2 * std_dev
+
+    # Identificar valores atípicos
+    outliers = df[(column > upper_threshold) | (column < lower_threshold)]
+
+    return outliers
+
+# Ejemplo de uso
+data = {
+    'values': [1, 2, 3, 4, 5, 6, 7, 1000]
+}
+
+df = pd.DataFrame(data)
+outliers = rule_of_two_sigmas(df, 'values')
+
+print("Valores atípicos:")
+print(outliers)
+
 # Librerías
 import numpy as np
 import math
