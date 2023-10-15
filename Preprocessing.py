@@ -48,6 +48,7 @@ def filter_box_cox(df, column_name, range=[-3, 3]):
     filtered_df = df[np.abs(z_scores) <= range[1]]
 
     return filtered_df
+    
 
 def rule_of_two_sigmas(df, column_name):
     # Calcular la media y la desviación estándar de la columna
@@ -64,6 +65,13 @@ def rule_of_two_sigmas(df, column_name):
 
     return outliers
 
+
+def min_max_normalization(df, column_name):
+    min_val = df[column_name].min()
+    max_val = df[column_name].max()
+    df[column_name] = (df[column_name] - min_val) / (max_val - min_val)
+    return df
+    
 
 
 
