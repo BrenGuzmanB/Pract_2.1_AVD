@@ -73,28 +73,20 @@ def min_max_normalization(df, column_name):
     return df
     
 
+def impute_median(df, column_name):
+    column = df[column_name]
+    column = column.dropna()
+    sorted_column = column.sort_values()
+    n = len(sorted_column)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    # Calcula el segundo cuartil (Q2)
+    q2_index = int(0.5 * (n + 1))
+    median = sorted_column.iloc[q2_index]
+    
+    # Imputa los valores faltantes con la mediana
+    df[column_name] = df[column_name].fillna(median)
+    
+    return df
 
 
 def one_hot_encoding(dataframe, column_name):
