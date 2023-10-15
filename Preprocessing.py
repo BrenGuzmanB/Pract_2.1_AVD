@@ -6,6 +6,7 @@ Created on Sat Oct 14 00:10:10 2023
 # Librerías
 import numpy as np
 import math
+import pandas as pd
 
 def box_cox_transform(data, lmbda):
     if lmbda == 0:
@@ -33,3 +34,18 @@ def find_optimal_lambda(data):
             best_lambda = lmbda
 
     return best_lambda
+
+def filter_box_cox(df, column_name, range=[-3, 3]):
+
+    # Calcula la mediana y la desviación estándar de la columna
+    median = df[column_name].median()
+    std = df[column_name].std()
+
+    # Calcula los valores z
+    z_scores = (df[column_name] - median) / std
+
+    # Elimina los valores z fuera del rango especificado
+    filtered_df = df[np.abs(z_scores) <= range[1]]
+
+    return filtered_df
+
